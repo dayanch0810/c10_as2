@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
+use App\Models\League;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +23,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+
+        Paginator::useBootstrapFive();
+
+        View::composer('app.nav', function ($view) {
+            $leagues = League::orderBy('name')
+                ->get();
+
+            $view->with([
+                'leagues' => $leagues,
+            ]);
+        });
     }
 }

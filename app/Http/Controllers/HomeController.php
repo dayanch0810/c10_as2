@@ -33,52 +33,34 @@ class HomeController extends Controller
             ]);
     }
 
-    public function favorites()
-    {
-        $user = User::inRandomOrder();
-
-        $leagueIds = League::inRandomOrder()
-            ->take(3)
-            ->get();
-        foreach ($leagueIds as $league) {
-            $user->userLeague()->syncWithoutDetaching($league->id);
-        }
-
-        $clubIds = Club::inRandomOrder()
-            ->take(3)
-            ->get();
-        foreach ($clubIds as $club) {
-            $user->userClub()->syncWithoutDetaching($club->id);
-        }
-
-
-        $playerIds = Player::inRandomOrder()
-            ->take(3)
-            ->get();
-        foreach ($playerIds as $player) {
-            $user->userPlayer()->syncWithoutDetaching($player->id);
-        }
-
-        return view('home.index', [
-            'userLeagues' => $user->userLeague,
-            'userClubs' => $user->userClub,
-            'userPlayers' => $user->userPlayer,
-        ]);
-    }
-
     public function league($slug)
     {
         $league = League::firstWhere('slug', $slug);
 
         $club = Club::where('league_id', $league->id)
-            ->withCount('matches', 'players')
+            ->withCount('players')
             ->orderBy('name')
-            ->paginate(12)
-            ->get();
+            ->paginate(12);
 
         return view('home.league')
             ->with([
                 'league' => $league,
                 'club' => $club,
-            ]);    }
+            ]);
+    }
+
+    public function club($slug)
+    {
+        $club = Club::firstWhere('slug', $slug);
+
+        $matches = Matches::where('club_id_1', $club->id)
+            ->orderBy('id')
+            ->paginate(12);
+
+        return view('home.club')
+            ->with([
+                'club' => $club,
+                'matches' => $matches,
+            ]);
+    }
 }

@@ -4,9 +4,6 @@
             @foreach($leagues as $league)
                 <div class="col">
                     <div class="position-relative text-bg-secondary p-3 border rounded">
-                        <div class="fs-1">
-                            <i class="bi-music-note-beamed"></i>
-                        </div>
                         <a href="{{ route('league', $league->slug) }}" class="stretched-link link-light text-decoration-none">
                             {{ $league->name }}
                         </a>

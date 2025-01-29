@@ -7,6 +7,8 @@
     <div class="container-lg py-4">
         <div class="row g-4">
             <div class="col-sm-6">@include('home.index.club')</div>
+        </div>
+        <div class="row g-4">
             <div class="col-sm-6">@include('home.index.matches')</div>
         </div>
     </div>

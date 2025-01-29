@@ -1,15 +1,5 @@
-@extends('layouts.app')
-@section('title')
-    {{ $league->name }} | League
-@endsection
-@section('content')
-    <div class="container-lg py-4">
-        <div class="h4 mb-3">
-            {{ $league->name }}
-        </div>
-
-        <div>
-            {{ $club->links() }}
-        </div>
-    </div>
-@endsection
+<div class="position-relative text-center p-1 p-sm-2 border rounded h-100">
+    <a href="{{ route('club', $c->slug) }}" class="d-block stretched-link link-primary text-decoration-none mb-1">
+        {{ $c->name }}
+    </a>
+</div>
