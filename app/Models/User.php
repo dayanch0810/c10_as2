@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -19,7 +20,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
+        'username',
         'password',
     ];
 
@@ -33,6 +34,8 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public $timestamps = false;
+
     /**
      * Get the attributes that should be cast.
      *
@@ -41,8 +44,22 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function userPlayer(): BelongsToMany
+    {
+        return $this->belongsToMany(Player::class, 'user_player');
+    }
+
+    public function userClub(): BelongsToMany
+    {
+        return $this->belongsToMany(Club::class, 'user_club');
+    }
+
+    public function userLeague(): BelongsToMany
+    {
+        return $this->belongsToMany(League::class, 'user_league');
     }
 }
